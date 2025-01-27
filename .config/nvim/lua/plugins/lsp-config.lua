@@ -14,11 +14,6 @@ return {
         end,
     },
     {
-        "mrcjkb/rustaceanvim",
-        version = "^5",
-        lazy = false,
-    },
-    {
         "neovim/nvim-lspconfig",
         opts = {
             setup = {
@@ -42,9 +37,9 @@ return {
                 capabilities = capabilities,
             })
 
-            --lspconfig.rust_analyzer.setup({
-                --    capabilities = capabilities,
-            --})
+            lspconfig.rust_analyzer.setup({
+                capabilities = capabilities,
+            })
 
             vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
             vim.keymap.set("n", "<C-b>", vim.lsp.buf.definition, {})
