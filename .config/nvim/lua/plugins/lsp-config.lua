@@ -42,6 +42,25 @@ return {
 				on_attach = on_attach,
 			})
 
+            lspconfig.dartls.setup({
+            cmd = { "dart", "language-server", "--protocol=lsp" },
+                filetypes = { "dart" },
+                init_options = {
+                    closingLabels = true,
+                    flutterOutline = true,
+                    onlyAnalyzeProjectsWithOpenFiles = true,
+                    outline = true,
+                    suggestFromUnimportedLibraries = true,
+                },
+                -- root_dir = root_pattern("pubspec.yaml"),
+                settings = {
+                    dart = {
+                        completeFunctionCalls = true,
+                        showTodos = true,
+                    },
+                },
+            })
+
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<C-b>", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, {})
