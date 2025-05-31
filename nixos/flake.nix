@@ -14,8 +14,8 @@
       nixosConfigurations.susan = nixpkgs.lib.nixosSystem {
         system = system;
         modules = [
-          ./configuration.nix
-	  ./hardware-configuration.nix
+	  ./configuration.nix
+      	  ./hardware-configuration.nix
         ];
       };
     };
