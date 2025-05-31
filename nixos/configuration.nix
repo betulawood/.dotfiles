@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
     ];
 
   # Bootloader.
@@ -14,16 +15,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_1;
 
-
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -52,30 +50,21 @@
     variant = "";
   };
 
-  services.xserver.enable = true;  # Configure console keymap
+  services.xserver.enable = true; # Configure console keymap
   services.xserver.videoDrivers = [ "nvidia" ];
+
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.windowManager.i3.enable = true;
+
   hardware.nvidia = {
     modesetting.enable = true;
     nvidiaSettings = true;
     powerManagement.enable = false;
     open = false;
   };
+
   hardware.graphics = {
     enable = true;
-  };
-
-  system.replaceRuntimeDependencies = [
-    ({ original = pkgs.mesa; replacement = (import /srv/nixpkgs-mesa { }).pkgs.mesa; })
-    ({ original = pkgs.mesa.drivers; replacement = (import /srv/nixpkgs-mesa { }).pkgs.mesa.drivers; })
-  ];
-
-
-  environment.variables = {
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    LIBVA_DRIVER_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-    __GL_VRR_ALLOWED = "1";
   };
 
   console.keyMap = "uk";
@@ -85,69 +74,30 @@
     isNormalUser = true;
     description = "susan";
     extraGroups = [ "networkmanager" "wheel" "video" "seat" ];
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-     kitty
-     stow
-     firefox
-     git
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
+    kitty
+    stow
+    firefox
+    git
+    spotify
+    pavucontrol
+    cargo
+    feh
 
-     # Required for Hyprland
-     xdg-desktop-portal-hyprland
-     dbus
+    # Required for Hyprland
+    #dbus
   ];
-  hardware.opengl.package = (import /srv/nixpkgs-mesa { }).pkgs.mesa.drivers;
 
-  environment.sessionVariables.MOZ_ENABLE_WAYLAND = 0;
+  #services.dbus.enable = true;
+  programs.steam.enable = true;
 
-  services.dbus.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-  programs.xwayland.enable = true;
-  programs.steam.enable =true;
-
-  services.displayManager.sddm = {
-    enable = true;
-    wayland = {
-      enable = true;
-    };
-  };
-  services.displayManager.defaultSession = "hyprland";
-
-  programs.hyprland.enable = true;
-
-    # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
