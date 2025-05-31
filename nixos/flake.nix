@@ -11,11 +11,11 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      nixosConfigurations.susan = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
         system = system;
         modules = [
 	  ./configuration.nix
-      	  ./hardware-configuration.nix
+      	  ./hosts/desktop/hardware-configuration.nix
         ];
       };
     };
