@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, inputs,  ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -14,9 +14,10 @@
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
         system = system;
         modules = [
-	  ./configuration.nix
+	      ./configuration.nix
       	  ./hosts/desktop/hardware-configuration.nix
         ];
+        nvim = import ./module/nvim/flake.nix { inherit nixpkgs self; };
       };
     };
 }
