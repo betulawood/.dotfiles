@@ -17,7 +17,7 @@
 	      ./configuration.nix
       	  ./hosts/desktop/hardware-configuration.nix
         ];
-        nvim = import ./module/nvim/flake.nix { inherit nixpkgs self; };
+        nvim = import ./module/nvim/flake.nix { inherit nixpkgs ; };
       };
     };
 }
