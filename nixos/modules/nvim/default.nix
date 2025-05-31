@@ -2,9 +2,20 @@
 
 {
   environment.systemPackages = with pkgs; [
-    neovim
-    # Add any language servers, formatters, tools here if desired
+      go
+      rustc
+      python3
+      gopls
+      rust-analyzer
+      nodejs
+      gcc
   ];
+
+
+  programs.neovim = { 
+    enable = true; 
+    defaultEditor = true;
+  };
 }
 
 

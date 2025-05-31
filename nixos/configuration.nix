@@ -57,9 +57,18 @@
   hardware.nvidia = {
     modesetting.enable = true;
     nvidiaSettings = true;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     open = false;
   };
+  hardware.graphics = {
+    enable = true;
+  };
+
+  system.replaceRuntimeDependencies = [
+    ({ original = pkgs.mesa; replacement = (import /srv/nixpkgs-mesa { }).pkgs.mesa; })
+    ({ original = pkgs.mesa.drivers; replacement = (import /srv/nixpkgs-mesa { }).pkgs.mesa.drivers; })
+  ];
+
 
   environment.variables = {
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
@@ -96,6 +105,8 @@
      xdg-desktop-portal-hyprland
      dbus
   ];
+  hardware.opengl.package = (import /srv/nixpkgs-mesa { }).pkgs.mesa.drivers;
+
   environment.sessionVariables.MOZ_ENABLE_WAYLAND = 0;
 
   services.dbus.enable = true;
@@ -107,6 +118,8 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  programs.xwayland.enable = true;
+  programs.steam.enable =true;
 
   services.displayManager.sddm = {
     enable = true;
@@ -118,12 +131,7 @@
 
   programs.hyprland.enable = true;
 
-  programs.neovim = { 
-    enable = true; 
-    defaultEditor = true;
-  };
-
-  # List services that you want to enable:
+    # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
