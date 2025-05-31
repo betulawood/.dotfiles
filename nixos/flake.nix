@@ -16,8 +16,9 @@
         modules = [
 	      ./configuration.nix
       	  ./hosts/desktop/hardware-configuration.nix
-          ./modules/nvim/flake.nix
+          ./modules/nvim
         ];
+
       };
     };
 }
