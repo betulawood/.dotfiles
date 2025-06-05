@@ -90,10 +90,22 @@
     spotify
     pavucontrol
     cargo
+    vesktop
+    (discord.override { withVencord = true; })
+    rofi
+
     feh
 
-    # Required for Hyprland
-    #dbus
+    gradle
+    openjdk17
+    unzip
+    wget
+    yarn
+    vimPlugins.markdown-preview-nvim
+    stylua
+    audacity
+    ripgrep
+
   ];
 
   #services.dbus.enable = true;
